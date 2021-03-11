@@ -34,23 +34,16 @@ const autoscroll = () => {
     // How far have i scrolled?
     const scrollOffset = $messages.scrollTop + visibleHeight
 
+    // If we are the bottom, we autoscroll
     if(containerHeight - newMessageHeight <= scrollOffset) {
         $messages.scrollTop = $messages.scrollHeight
     }
-
-    console.log(containerHeight-newMessageHeight, scrollOffset, newMessageHeight, containerHeight)
 }
 
-// server (emit) => client (receive) --acknowledgement--> server
-
-// client (emit) => server (receive) --acknowledgement--> client
-
-// socket.on('countUpdated', (count) => {
-//     console.log('the count has been updated ' + count)
-// })
-
+// listening for message event on the client side
 socket.on('message', (message) => {
     console.log(message)
+    // rendering the upcoming data from the server to the screen
     const html = Mustache.render(messageTemplate, {
         username: message.username,
         message: message.text,
@@ -60,9 +53,10 @@ socket.on('message', (message) => {
     autoscroll()
 })
 
+// listening for location message event on the client side
 socket.on('locationMessage', (message) => {
     console.log(message)
-    
+    // rendering the upcoming data from the server to the screen
     const html = Mustache.render(locationMessageTemplate, {
         username: message.username,
         URL: message.URL,
@@ -72,7 +66,9 @@ socket.on('locationMessage', (message) => {
     autoscroll()
 })
 
+// listening for room data event on the client side
 socket.on('roomData', ({ room, users }) => {
+    // rendering the upcoming data about the room to the screen
     const html = Mustache.render(sidebarTemplate, {
         room,
         users
@@ -86,8 +82,9 @@ $messageForm.addEventListener('submit', (e) => {
 
     // disable
     $messageFormButton.setAttribute('disabled', 'disabled')
-    
+
     let msg = e.target.elements.msg.value
+    // emitting message to the server
     socket.emit('sendMessage', msg, (error) => {
         // enable
         $messageFormButton.removeAttribute('disabled')
@@ -99,7 +96,6 @@ $messageForm.addEventListener('submit', (e) => {
 
         console.log('Message delivered!')
     })
-    // console.log(inputVal)
 })
 
 
@@ -112,6 +108,7 @@ document.querySelector('#send-location').addEventListener('click', (e) => {
     // disable
     $sendLocationButton.setAttribute('disabled', 'disabled')
 
+    // finding location of the client and sending it to the server
     navigator.geolocation.getCurrentPosition((position) => {
         socket.emit('sendLocation', {
             latitude: position.coords.latitude,
@@ -123,13 +120,10 @@ document.querySelector('#send-location').addEventListener('click', (e) => {
     })
 })
 
+// emitting join event to the server
 socket.emit('join', { username, room }, (error) => {
     if(error) {
         alert(error)
         location.href = '/'
     }
 })
-
-// document.querySelector('#increment').addEventListener('click', () => {
-//     socket.emit('increment')    
-// })
