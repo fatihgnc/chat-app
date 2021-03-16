@@ -164,10 +164,10 @@ input {
     right: 0;
     bottom: 0;
     top: 0;
-    background: url('https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
-    background-repeat: no-repeat;
+    background: black;
+    /* background-repeat: no-repeat;
     background-size: cover;
-    background-position: left;
+    background-position: left; */
     z-index: -1;
 }
 
@@ -242,7 +242,6 @@ svg:hover {
     margin-left: 16px;
     display: inline-block;
     max-width: 100%;
-    border-bottom: thin solid white;
 }
 
 @media screen and (max-width: 375px) {
@@ -266,7 +265,7 @@ svg:hover {
     margin-left: 15px;
     display: inline-block;
     max-width: 100%;
-    color: white;
+    color: #8a7b91;
     word-wrap: break-word;
 }
 
