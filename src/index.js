@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         socket.join(user.room)
 
         // emitting message for join
-        socket.emit('message', generateMessage('Admin', 'Welcome!'))
+        socket.emit('message', generateMessage('Admin', `Welcome, ${user.username}!`))
         
         // informing users on join
         socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} has joined!`))

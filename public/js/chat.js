@@ -2,7 +2,7 @@ const socket = io()
 
 // Elements
 const $messageForm = document.querySelector('#socketForm')
-const $messageFormInput = $messageForm.querySelector('input')
+const $messageFormInput = $messageForm.querySelector('textarea')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
@@ -12,6 +12,20 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
+// Events for buttons
+$(window).on('load', function () {
+    $('.info__button__container svg').on('click', (e) => {
+        e.preventDefault()
+        $('body').toggleClass('animate')
+    })
+})
+$(window).on('resize', () => {
+	if($(window).width() >= 545) {
+        if($('body').hasClass('animate')) {
+        $('body').removeClass('animate')
+        }
+	}
+})
 
 // Options
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -108,7 +122,7 @@ document.querySelector('#send-location').addEventListener('click', (e) => {
     // disable
     $sendLocationButton.setAttribute('disabled', 'disabled')
 
-    // finding location of the client and sending it to the server
+    // finding location of the user and sending it to the server
     navigator.geolocation.getCurrentPosition((position) => {
         socket.emit('sendLocation', {
             latitude: position.coords.latitude,

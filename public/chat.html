@@ -5,33 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/favicon.png">
-    <link rel="stylesheet" href="./css/styles.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <title>Chat App!</title>
 </head>
 <body>
-    <div class="chat">
-        <div class="chat__sidebar" id="sidebar">
 
+    <div class="chat">
+    
+        <div class="chat__sidebar" id="sidebar">
+           
         </div>
 
         <div class="chat__main">
-            
+            <div class="bg">
+            </div>
+            <div class="info__button__container">
+
+                <svg class="svg" fill="black" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm.5 17h-1v-9h1v9zm-.5-12c.466 0 .845.378.845.845 0 .466-.379.844-.845.844-.466 0-.845-.378-.845-.844 0-.467.379-.845.845-.845z"/></svg>
+                <span class="icon__info">Oda bilgisi için yandaki ikona tıklayabilirsiniz.</span>
+            </div>
+
             <div id="messages" class="chat__messages">
 
             </div>
         
             <div class="compose">
                 <form id="socketForm">
-                    <input name="msg" type="text" placeholder="Enter text" required autocomplete="off">
-                    <button type="submit">Send</button>
+                    
+                <textarea 
+                    name="msg" 
+                    id="message-input" 
+                    cols="35"
+                    rows="1"
+                    required 
+                    autocomplete="off" 
+                    placeholder="Enter message.."></textarea>
+                    <button type="submit">
+                        <svg fill="white" enable-background="new 0 0 24 24" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m8.75 17.612v4.638c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l2.713-3.692z"/><path d="m23.685.139c-.23-.163-.532-.185-.782-.054l-22.5 11.75c-.266.139-.423.423-.401.722.023.3.222.556.505.653l6.255 2.138 13.321-11.39-10.308 12.419 10.483 3.583c.078.026.16.04.242.04.136 0 .271-.037.39-.109.19-.116.319-.311.352-.53l2.75-18.5c.041-.28-.077-.558-.307-.722z"/></svg>
+                    </button>
                 </form>
-                <button id="send-location">Send location</button>
+                <button id="send-location">
+                    <svg fill="white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+                </button>
             </div>
         </div>
     </div>
-    <!-- <button id="increment">+1</button> -->
-
-    
 
     <script id="message-template" type="text/html">
         <div class="message">
@@ -39,7 +57,7 @@
                 <span class="message__name">{{username}}</span>
                 <span class="message__meta">{{createdAt}}</span>
             </p>
-            <p>{{message}}</p>
+            <p class="message__content">{{message}}</p>
         </div>
     </script>
 
@@ -58,7 +76,7 @@
         <h3 class="list-title">Users</h3>
         <ul class="users">
             {{#users}}
-                <li>{{username}}</li>
+                <li style="text-indent: 15px;">{{username}}</li>
             {{/users}}
         </ul>
     </script>
@@ -76,6 +94,9 @@
     </script>
    
    <script src="/socket.io/socket.io.js"></script>
+   <script 
+        src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+    </script>
     <script src="./js/chat.js"></script>
 </body>
 </html>
