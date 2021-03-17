@@ -172,13 +172,17 @@ input {
 }
 
 .info__button__container {
-    background: rgba(255,255,255,.3);
+    background: rebeccapurple;
     color: black;
     padding: .8em;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     gap: 2em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
 }
 
 @media screen and (min-width: 566px) {
@@ -225,6 +229,12 @@ svg:hover {
     overflow-y: scroll;
 }
 
+@media screen and (max-width: 541px) {
+    .chat__messages {
+        padding-top: 60px;
+    }
+}
+
 /* Message Styles */
 
 .message{
@@ -258,7 +268,7 @@ svg:hover {
 
 .message__meta {
     color: skyblue;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .message a {
@@ -278,17 +288,24 @@ svg:hover {
 /* Message Composition Styles */
 
 .compose {
-    position: sticky;
-    left:0;
-    bottom:0;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 16px 25px;
+    margin: 20px 25px 16px;
+    border-top: thin solid white;
+    padding-top: 16px;
+}
+
+@media screen and (max-width: 420px) {
+    .compose {
+        padding: 16px 20px 0;
+    }
 }
 
 .compose #socketForm {
     display: flex;
+    flex-grow: 1;
     width: 100%;
     justify-content: space-between;
 }
@@ -302,6 +319,7 @@ svg:hover {
     padding: .75em;
     cursor: pointer;
     margin-left: .5em;
+    flex-grow: 1;
 }
 
 #socketForm #message-input{
@@ -311,7 +329,7 @@ svg:hover {
     resize: none;
     border-radius: 5px;
     background: rgba(255,255,255,.75); 
-    flex: 2;
+    flex-grow: 4;
 }
 
 ::placeholder {
@@ -330,6 +348,14 @@ svg:hover {
     border: none;
     padding: .5em;
     cursor: pointer;
+    flex:3;
+}
+
+@media screen and (max-width: 500px) {
+    #send-location {
+        flex:5;
+        border:thin solid red;
+    }
 }
 
 /* Chat Sidebar Styles */
@@ -341,6 +367,12 @@ svg:hover {
     padding: 24px;   
 }
 
+@media screen and (max-width: 430px) {
+    .room-title {
+        font-size: 18px;
+    }
+}
+
 .list-title {
     font-weight: 500;
     font-size: 18px;
@@ -348,8 +380,21 @@ svg:hover {
     padding: 12px 24px 0 24px;
 }
 
+@media screen and (max-width: 430px) {
+    .list-title {
+        font-size: 16px;
+    }
+}
+
 .users {
     list-style-type: none;
     font-weight: 300;
     padding: 12px 24px 0 24px;
 }
+
+@media screen and (max-width: 430px) {
+    .users {
+        font-size: 14px;
+    }
+}
+
