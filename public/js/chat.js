@@ -1,24 +1,38 @@
 const socket = io()
 
 // Elements
-const $messageForm = document.querySelector('#socketForm')
-const $messageFormInput = $messageForm.querySelector('textarea')
-const $messageFormButton = $messageForm.querySelector('button')
+const $messageForm = $('#socketForm')
+const $messageFormInput = $('#message-input')
+const $messageFormButton = $('#socketForm button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
+const $roomTitle = document.querySelector('#room__title')
+const $roomInfoBtn = document.querySelector('.room__info__button')
+const $roomTitleL = document.querySelector('.room__title__l')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
-// Events for buttons
+// Event listener for room info button
+let isClicked = false
+
 $(window).on('load', function () {
-    $('.info__button__container svg').on('click', (e) => {
+    $('.info__button__container .room__info__button').on('click', (e) => {
         e.preventDefault()
         $('body').toggleClass('animate')
+
+        if(isClicked) {
+            $roomInfoBtn.textContent = '«'
+            isClicked = false
+        } else {
+            $roomInfoBtn.textContent = '»'
+            isClicked = true
+        }
     })
 })
+
 $(window).on('resize', () => {
 	if($(window).width() >= 545) {
         if($('body').hasClass('animate')) {
@@ -88,22 +102,28 @@ socket.on('roomData', ({ room, users }) => {
         users
     })
 
+    $roomTitle.textContent = room
+    $roomTitleL.textContent = room
+
     document.querySelector('#sidebar').innerHTML = html
 })
 
-$messageForm.addEventListener('submit', (e) => {
+// listener for form submission
+$messageForm.on('submit', (e) => {
     e.preventDefault()
 
     // disable
-    $messageFormButton.setAttribute('disabled', 'disabled')
+    $messageFormButton.attr('disabled', 'disabled')
 
     let msg = e.target.elements.msg.value
     // emitting message to the server
     socket.emit('sendMessage', msg, (error) => {
         // enable
-        $messageFormButton.removeAttribute('disabled')
-        $messageFormInput.value = ''
-        $messageFormInput.focus()
+        $messageFormButton.removeAttr('disabled')
+        $messageFormInput.val('')
+        $messageFormInput.focus((e) => {
+            return
+        })
         if (error) {
             return console.log(error)
         }
@@ -112,6 +132,18 @@ $messageForm.addEventListener('submit', (e) => {
     })
 })
 
+// submitting form if 'enter' key is pressed
+$('#message-input').on('keydown', function(e) {
+    if(e.altKey && e.keyCode === 13) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).val($(this).val() + "\n");
+    } else if(e.keyCode === 13) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).parents('#socketForm').submit();      
+    }
+  });
 
 document.querySelector('#send-location').addEventListener('click', (e) => {
 
